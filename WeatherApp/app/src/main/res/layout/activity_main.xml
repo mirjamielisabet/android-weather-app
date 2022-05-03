@@ -7,35 +7,57 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/outlinedTextField"
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+        app:cardElevation="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:hint="@string/location"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" >
+        android:layout_margin="8dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/locationInput"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:padding="7dp"
+            android:orientation="vertical">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="5dp" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/submitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/search"
-        android:onClick="onClick"
-        app:icon="@drawable/ic_baseline_search_24"
-        style="@style/Widget.MaterialComponents.Button.Icon" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outlinedTextField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="5dp"
+                android:hint="@string/location"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" >
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/locationInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/submitButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search"
+                android:layout_gravity="center"
+                android:onClick="onClick"
+                app:icon="@drawable/ic_baseline_search_24"
+                style="@style/Widget.MaterialComponents.Button.Icon" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
