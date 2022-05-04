@@ -7,10 +7,8 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-
-
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card"
+        android:id="@+id/weatherCard"
         app:cardElevation="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +22,34 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/heading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="5dp" />
+
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/searchLocationCard"
+        app:cardElevation="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:padding="7dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/heading2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
