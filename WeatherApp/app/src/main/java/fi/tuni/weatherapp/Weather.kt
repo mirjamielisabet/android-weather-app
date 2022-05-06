@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 data class Weather(var description: String, var icon: String)
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class WeatherResult(var weather: MutableList<Weather>, var main: Temperature, var wind: Wind)
+data class WeatherResult(var weather: MutableList<Weather>, var main: Temperature, var wind: Wind, var name: String)
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Temperature(var temp: Double, var feels_like: Double, var humidity: Int)
