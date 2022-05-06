@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import java.io.BufferedReader
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var wind : TextView
     lateinit var submitButton : Button
     lateinit var locationInput : EditText
+    lateinit var weatherIcon : ImageView
 
     lateinit var key : String
     lateinit var url : String
@@ -45,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         description = findViewById(R.id.description)
         temp = findViewById(R.id.temp)
         wind = findViewById(R.id.wind)
+        weatherIcon = findViewById(R.id.weatherIcon)
 
         heading.text = "Current Weather | $location"
         heading2.text = "Search Weather by Location"
@@ -56,10 +60,16 @@ class MainActivity : AppCompatActivity() {
             if (it != null) {
                 val result = parseWeatherJSON(it)
                 if (result != null) {
+                    locationInput.text = null
+                    locationInput.clearFocus()
+
                     temp.text = "${result.main.temp.toString()} °C"
                     wind.text = "${result.wind.speed.toString()} m/s"
                     description.text = result.weather[0].description
-                    heading.text = "Current Weather | $location"
+                    heading.text = "Current Weather | ${result.name}"
+                    Glide.with(this)
+                        .load("https://openweathermap.org/img/w/${result.weather[0].icon}.png")
+                        .into(weatherIcon)
                 } else {
                     heading.text = errmsg
                     heading.setTextColor(Color.parseColor("red"))
@@ -79,7 +89,6 @@ class MainActivity : AppCompatActivity() {
         val inputText = locationInput.text.toString()
         location = inputText
         getWeatherData()
-        locationInput.text = null
     }
 
     fun downloadUrlAsync(context: Activity, url: String, callback: (result: String?) -> Unit) {
