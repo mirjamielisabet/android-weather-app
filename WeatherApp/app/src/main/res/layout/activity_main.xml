@@ -23,25 +23,43 @@
 
             <TextView
                 android:id="@+id/heading"
+                android:textAppearance="@id/heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:textSize="30sp"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp" />
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <ImageView
+                    android:id="@+id/weatherIcon"
+                    android:layout_width="100dp"
+                    android:layout_height="90dp" />
+
+                <TextView
+                    android:id="@+id/temp"
+                    android:paddingVertical="25dp"
+                    android:paddingHorizontal="30dp"
+                    android:textSize="30sp"
+                    android:textAppearance="@id/heading2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/description"
+                android:paddingHorizontal="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/wind"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/temp"
+                android:paddingHorizontal="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -73,7 +91,7 @@
                 android:paddingVertical="5dp" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/outlinedTextField"
+                android:id="@+id/filledTextField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="15dp"
