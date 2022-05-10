@@ -1,6 +1,7 @@
 package fi.tuni.weatherapp
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -24,7 +25,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var heading2 : TextView
     lateinit var description : TextView
     lateinit var temp : TextView
+    lateinit var feels_like_temp : TextView
     lateinit var wind : TextView
+    lateinit var humidity : TextView
     lateinit var submitButton : Button
     lateinit var locationInput : EditText
     lateinit var weatherIcon : ImageView
@@ -47,7 +50,9 @@ class MainActivity : AppCompatActivity() {
         locationInput = findViewById(R.id.locationInput)
         description = findViewById(R.id.description)
         temp = findViewById(R.id.temp)
+        feels_like_temp = findViewById(R.id.feels_like_temp)
         wind = findViewById(R.id.wind)
+        humidity = findViewById(R.id.humidity)
         weatherIcon = findViewById(R.id.weatherIcon)
 
         heading.text = "Current Weather | $location"
@@ -64,7 +69,9 @@ class MainActivity : AppCompatActivity() {
                     locationInput.clearFocus()
 
                     temp.text = "${result.main.temp.toString()} °C"
-                    wind.text = "${result.wind.speed.toString()} m/s"
+                    feels_like_temp.text = "Feels like: ${result.main.feels_like} °C"
+                    wind.text = "Wind: ${result.wind.speed.toString()} m/s"
+                    humidity.text = "Humidity: ${result.main.humidity} %"
                     description.text = result.weather[0].description
                     heading.text = "Current Weather | ${result.name}"
                     Glide.with(this)
@@ -86,9 +93,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClick(button: View) {
-        val inputText = locationInput.text.toString()
-        location = inputText
-        getWeatherData()
+        val intent = Intent(this, ForecastActivity::class.java)
+
+        when (button.id) {
+            R.id.submitButton -> {
+                val inputText = locationInput.text.toString()
+                location = inputText
+                getWeatherData()
+            }
+            R.id.forecastButton -> startActivity(intent)
+        }
     }
 
     fun downloadUrlAsync(context: Activity, url: String, callback: (result: String?) -> Unit) {
