@@ -1,0 +1,18 @@
+package fi.tuni.weatherapp
+
+import android.os.Bundle
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+
+class ForecastActivity : AppCompatActivity() {
+    lateinit var textView : TextView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_forecast)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        textView = findViewById(R.id.textView)
+        textView.text = "Forecast"
+    }
+}
