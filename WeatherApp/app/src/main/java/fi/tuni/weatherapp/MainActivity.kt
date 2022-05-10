@@ -1,18 +1,23 @@
 package fi.tuni.weatherapp
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Geocoder
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.core.app.ActivityCompat
 import com.bumptech.glide.Glide
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.Exception
@@ -31,11 +36,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var submitButton : Button
     lateinit var locationInput : EditText
     lateinit var weatherIcon : ImageView
+    lateinit var fusedLocationClient: FusedLocationProviderClient
 
     lateinit var key : String
     lateinit var url : String
 
-    var location = "Tampere"
+    var location = "Helsinki"
     var errmsg = ""
 
 
@@ -57,6 +63,8 @@ class MainActivity : AppCompatActivity() {
 
         heading.text = "Current Weather | $location"
         heading2.text = "Search Weather by Location"
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
     fun getWeatherData() {
@@ -102,7 +110,58 @@ class MainActivity : AppCompatActivity() {
                 getWeatherData()
             }
             R.id.forecastButton -> startActivity(intent)
+            R.id.currentLocationButton -> getCurrentLocation()
         }
+    }
+
+    fun askPermissions() {
+        ActivityCompat.requestPermissions(this,
+            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 42)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            42 -> {
+                if ((grantResults.isNotEmpty() &&
+                            grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    getCurrentLocation()
+                } else {
+                    Toast.makeText(this,
+                        "Access to Location denied, cannot show Weather Info based on your location.",
+                        Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    fun checkPermission() : Boolean {
+        return ActivityCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    @SuppressLint("MissingPermission")
+    fun getCurrentLocation() {
+        if (checkPermission()) {
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { currentLocation : Location? ->
+                    if (currentLocation != null) {
+                        location = getCity(currentLocation.latitude, currentLocation.longitude)
+                        getWeatherData()
+                    }
+                }
+        } else {
+            askPermissions()
+        }
+    }
+
+    fun getCity(lat: Double, lon: Double) : String {
+        val geocoder = Geocoder(this)
+        val list = geocoder.getFromLocation(lat, lon, 1)
+        return list[0].locality
     }
 
     fun downloadUrlAsync(context: Activity, url: String, callback: (result: String?) -> Unit) {
