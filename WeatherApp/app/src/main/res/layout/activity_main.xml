@@ -80,10 +80,12 @@
                     android:layout_height="wrap_content" />
 
                 <Button
+                    android:id="@+id/forecastButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
                     android:text="@string/forecast"
+                    android:onClick="onClick"
                     style="?attr/materialButtonOutlinedStyle" />
 
 
@@ -98,10 +100,12 @@
             android:layout_margin="8dp">
 
             <Button
+                android:id="@+id/currentLocationButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:text="@string/searchByLocation"
+                android:onClick="onClick"
                 style="?attr/materialButtonOutlinedStyle" />
 
         </com.google.android.material.card.MaterialCardView>
