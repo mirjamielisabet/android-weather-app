@@ -2,7 +2,6 @@ package fi.tuni.weatherapp
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -18,12 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.lang.Exception
-import java.net.HttpURLConnection
-import java.net.URL
-import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     lateinit var heading : TextView
@@ -37,9 +31,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var locationInput : EditText
     lateinit var weatherIcon : ImageView
     lateinit var fusedLocationClient: FusedLocationProviderClient
-
     lateinit var key : String
-    lateinit var url : String
 
     var location = "Helsinki"
     var errmsg = ""
@@ -68,8 +60,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getWeatherData() {
-        url = "https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${key}"
-        downloadUrlAsync(this, url) {
+        val url = "https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${key}"
+        UrlConnection().downloadUrlAsync(this, url) {
             if (it != null) {
                 val result = parseWeatherJSON(it)
                 if (result != null) {
@@ -90,6 +82,7 @@ class MainActivity : AppCompatActivity() {
                     heading.setTextColor(Color.parseColor("red"))
                 }
             } else {
+                errmsg = "Entered Location Not Found"
                 locationInput.error = errmsg
             }
         }
@@ -102,6 +95,7 @@ class MainActivity : AppCompatActivity() {
 
     fun onClick(button: View) {
         val intent = Intent(this, ForecastActivity::class.java)
+        intent.putExtra("location", location)
 
         when (button.id) {
             R.id.submitButton -> {
@@ -162,39 +156,6 @@ class MainActivity : AppCompatActivity() {
         val geocoder = Geocoder(this)
         val list = geocoder.getFromLocation(lat, lon, 1)
         return list[0].locality
-    }
-
-    fun downloadUrlAsync(context: Activity, url: String, callback: (result: String?) -> Unit) {
-        thread() {
-            val json = getUrl(url)
-            context.runOnUiThread() {
-                callback(json)
-            }
-        }
-    }
-
-    fun getUrl(url: String) : String? {
-        var result : String? = ""
-
-        try {
-            val myUrl = URL(url)
-            val conn = myUrl.openConnection() as HttpURLConnection
-            val reader = BufferedReader(InputStreamReader(conn.inputStream))
-
-            reader.use {
-                var line : String? = ""
-
-                while (line != null) {
-                    line = it.readLine()
-                    result += line
-                }
-            }
-        } catch (e: Exception) {
-            println(e)
-            result = null
-            errmsg = "Entered Location Not Found"
-        }
-        return result
     }
 
     fun parseWeatherJSON(json: String): WeatherResult? {
