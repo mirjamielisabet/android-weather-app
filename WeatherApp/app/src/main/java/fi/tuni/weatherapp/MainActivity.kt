@@ -3,6 +3,7 @@ package fi.tuni.weatherapp
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Geocoder
@@ -22,6 +23,7 @@ import java.lang.Exception
 class MainActivity : AppCompatActivity() {
     lateinit var heading : TextView
     lateinit var heading2 : TextView
+    lateinit var locationText : TextView
     lateinit var description : TextView
     lateinit var temp : TextView
     lateinit var feels_like_temp : TextView
@@ -32,10 +34,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var weatherIcon : ImageView
     lateinit var fusedLocationClient: FusedLocationProviderClient
     lateinit var key : String
+    lateinit var sharedPref : SharedPreferences
 
-    var location = "Helsinki"
     var errmsg = ""
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         key = getString(R.string.key)
         heading = findViewById(R.id.heading)
         heading2 = findViewById(R.id.heading2)
+        locationText = findViewById(R.id.locationText)
         submitButton = findViewById(R.id.submitButton)
         locationInput = findViewById(R.id.locationInput)
         description = findViewById(R.id.description)
@@ -53,14 +55,16 @@ class MainActivity : AppCompatActivity() {
         humidity = findViewById(R.id.humidity)
         weatherIcon = findViewById(R.id.weatherIcon)
 
-        heading.text = "Current Weather | $location"
+        heading.text = "Current Weather"
         heading2.text = "Search Weather by Location"
+        locationText.text = "Helsinki"
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        sharedPref = getSharedPreferences("savedLocation", MODE_PRIVATE)
     }
 
     fun getWeatherData() {
-        val url = "https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${key}"
+        val url = "https://api.openweathermap.org/data/2.5/weather?q=${locationText.text}&units=metric&appid=${key}"
         UrlConnection().downloadUrlAsync(this, url) {
             if (it != null) {
                 val result = parseWeatherJSON(it)
@@ -73,7 +77,10 @@ class MainActivity : AppCompatActivity() {
                     wind.text = "Wind: ${result.wind.speed.toString()} m/s"
                     humidity.text = "Humidity: ${result.main.humidity} %"
                     description.text = result.weather[0].description
-                    heading.text = "Current Weather | ${result.name}"
+                    locationText.text = result.name
+                    val edit = sharedPref.edit()
+                    edit.putString("location", result.name)
+                    edit.apply()
                     Glide.with(this)
                         .load("https://openweathermap.org/img/w/${result.weather[0].icon}.png")
                         .into(weatherIcon)
@@ -90,17 +97,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        val savedLocation = sharedPref.getString("location", "")
+        if (savedLocation != "") {
+            locationText.text = savedLocation
+        }
         getWeatherData()
     }
 
     fun onClick(button: View) {
         val intent = Intent(this, ForecastActivity::class.java)
-        intent.putExtra("location", location)
+        intent.putExtra("location", locationText.text)
 
         when (button.id) {
             R.id.submitButton -> {
                 val inputText = locationInput.text.toString()
-                location = inputText
+                locationText.text = inputText
                 getWeatherData()
             }
             R.id.forecastButton -> startActivity(intent)
@@ -143,7 +154,8 @@ class MainActivity : AppCompatActivity() {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { currentLocation : Location? ->
                     if (currentLocation != null) {
-                        location = getCity(currentLocation.latitude, currentLocation.longitude)
+                        val city = getCity(currentLocation.latitude, currentLocation.longitude)
+                        locationText.text = city
                         getWeatherData()
                     }
                 }
