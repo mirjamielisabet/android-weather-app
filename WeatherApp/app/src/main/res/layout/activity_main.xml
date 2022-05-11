@@ -34,6 +34,13 @@
                     android:paddingHorizontal="15dp"
                     android:paddingVertical="5dp" />
 
+                <TextView
+                    android:id="@+id/locationText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:paddingHorizontal="15dp" />
+
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -42,7 +49,8 @@
                     <ImageView
                         android:id="@+id/weatherIcon"
                         android:layout_width="100dp"
-                        android:layout_height="90dp" />
+                        android:layout_height="90dp"
+                        android:contentDescription="@string/weather_icon" />
 
                     <TextView
                         android:id="@+id/temp"
