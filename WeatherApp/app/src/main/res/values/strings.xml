@@ -2,4 +2,9 @@
     <string name="app_name">WeatherApp</string>
     <string name="location">Location</string>
     <string name="search">Search</string>
+    <string name="searchByLocation">Search By Current Location</string>
+    <string name="forecast">5 Day Forecast</string>
+    <string name="weather_icon">weather icon</string>
+    <string name="forecastTemp">%1$.0f °C</string>
+    <string name="forecastWind">%1$.0f m/s</string>
 </resources>
