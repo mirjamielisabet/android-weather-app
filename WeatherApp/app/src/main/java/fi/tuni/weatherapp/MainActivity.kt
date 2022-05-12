@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var locationText : TextView
     lateinit var description : TextView
     lateinit var temp : TextView
-    lateinit var feels_like_temp : TextView
+    lateinit var feelsLikeTemp : TextView
     lateinit var wind : TextView
     lateinit var humidity : TextView
     lateinit var submitButton : Button
@@ -50,14 +50,14 @@ class MainActivity : AppCompatActivity() {
         locationInput = findViewById(R.id.locationInput)
         description = findViewById(R.id.description)
         temp = findViewById(R.id.temp)
-        feels_like_temp = findViewById(R.id.feels_like_temp)
+        feelsLikeTemp = findViewById(R.id.feels_like_temp)
         wind = findViewById(R.id.wind)
         humidity = findViewById(R.id.humidity)
         weatherIcon = findViewById(R.id.weatherIcon)
 
-        heading.text = "Current Weather"
-        heading2.text = "Search Weather by Location"
-        locationText.text = "Helsinki"
+        heading.text = getString(R.string.currentWeather)
+        heading2.text = getString(R.string.searchLocation)
+        locationText.text = getString(R.string.defaultCity)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         sharedPref = getSharedPreferences("savedLocation", MODE_PRIVATE)
@@ -72,13 +72,10 @@ class MainActivity : AppCompatActivity() {
                     locationInput.text = null
                     locationInput.clearFocus()
 
-                    val roundedTemp = Math.round(result.main.temp)
-                    val roundedFeelsLikeTemp = Math.round(result.main.feels_like)
-                    val roundedWind = Math.round(result.wind.speed)
-                    temp.text = "${roundedTemp} °C"
-                    feels_like_temp.text = "Feels like: ${roundedFeelsLikeTemp} °C"
-                    wind.text = "Wind: ${roundedWind} m/s"
-                    humidity.text = "Humidity: ${result.main.humidity} %"
+                    temp.text = getString(R.string.temp, result.main.temp)
+                    feelsLikeTemp.text = getString(R.string.feels_like_temp, result.main.feels_like)
+                    wind.text = getString(R.string.wind, result.wind.speed)
+                    humidity.text = getString(R.string.humidity, result.main.humidity)
                     description.text = result.weather[0].description
                     locationText.text = result.name
                     val edit = sharedPref.edit()
