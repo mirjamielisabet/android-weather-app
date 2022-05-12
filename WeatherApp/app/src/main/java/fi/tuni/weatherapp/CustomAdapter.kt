@@ -31,7 +31,7 @@ class CustomAdapter(private var context: Context, private var data:  ArrayList<F
             .inflate(R.layout.list_item, viewGroup, false)
         return ViewHolder(view)
     }
-    
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
@@ -40,9 +40,9 @@ class CustomAdapter(private var context: Context, private var data:  ArrayList<F
         val formattedDate = formatter.format(date)
 
         viewHolder.date.text = formattedDate
-        viewHolder.temp.text = context.getString(R.string.forecastTemp, data[position].main.temp)
+        viewHolder.temp.text = context.getString(R.string.temp, data[position].main.temp)
         viewHolder.desc.text = data[position].weather[0].description
-        viewHolder.wind.text = context.getString(R.string.forecastWind, data[position].wind.speed)
+        viewHolder.wind.text = context.getString(R.string.wind, data[position].wind.speed)
         Glide.with(context)
             .load("https://openweathermap.org/img/w/${data[position].weather[0].icon}.png")
             .into(viewHolder.icon)
