@@ -1,10 +1,15 @@
 <resources>
-    <string name="app_name">WeatherApp</string>
-    <string name="location">Location</string>
+    <string name="app_name">Weather &amp; Forecast</string>
+    <string name="location">Enter location…</string>
     <string name="search">Search</string>
-    <string name="searchByLocation">Search By Current Location</string>
+    <string name="currentLocationButton">Use My Current Location</string>
     <string name="forecast">5 Day Forecast</string>
+    <string name="currentWeather">Current Weather</string>
+    <string name="searchLocation">Search by Location</string>
+    <string name="defaultCity">Helsinki</string>
     <string name="weather_icon">weather icon</string>
-    <string name="forecastTemp">%1$.0f °C</string>
-    <string name="forecastWind">%1$.0f m/s</string>
+    <string name="temp">%1$.0f °C</string>
+    <string name="wind">Wind: %1$.0f m/s</string>
+    <string name="feels_like_temp">Feels like: %1$.0f °C</string>
+    <string name="humidity">Humidity: %1$d %%</string>
 </resources>
