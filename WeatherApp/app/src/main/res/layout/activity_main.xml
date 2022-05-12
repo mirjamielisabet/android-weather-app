@@ -31,6 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="30sp"
+                    android:fontFamily="@font/mulish_bold"
                     android:paddingHorizontal="15dp"
                     android:paddingVertical="5dp" />
 
@@ -39,6 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="30sp"
+                    android:fontFamily="@font/mulish_semibold"
                     android:paddingHorizontal="15dp" />
 
                 <LinearLayout
@@ -66,23 +68,28 @@
                 <TextView
                     android:id="@+id/description"
                     android:paddingHorizontal="15dp"
+                    android:paddingVertical="8dp"
+                    android:textSize="20sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/feels_like_temp"
                     android:paddingHorizontal="15dp"
+                    android:textSize="18sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/wind"
                     android:paddingHorizontal="15dp"
+                    android:textSize="18sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/humidity"
+                    android:textSize="18sp"
                     android:paddingHorizontal="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -93,8 +100,10 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
                     android:text="@string/forecast"
+                    app:iconGravity="textEnd"
+                    app:icon="@drawable/ic_baseline_arrow_forward_24"
                     android:onClick="onClick"
-                    style="?attr/materialButtonOutlinedStyle" />
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon" />
 
 
             </LinearLayout>
@@ -112,9 +121,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:text="@string/searchByLocation"
+                android:text="@string/currentLocationButton"
                 android:onClick="onClick"
-                style="?attr/materialButtonOutlinedStyle" />
+                app:iconGravity="textStart"
+                app:icon="@drawable/ic_baseline_my_location_24"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon" />
 
         </com.google.android.material.card.MaterialCardView>
 
