@@ -72,9 +72,12 @@ class MainActivity : AppCompatActivity() {
                     locationInput.text = null
                     locationInput.clearFocus()
 
-                    temp.text = "${result.main.temp.toString()} °C"
-                    feels_like_temp.text = "Feels like: ${result.main.feels_like} °C"
-                    wind.text = "Wind: ${result.wind.speed.toString()} m/s"
+                    val roundedTemp = Math.round(result.main.temp)
+                    val roundedFeelsLikeTemp = Math.round(result.main.feels_like)
+                    val roundedWind = Math.round(result.wind.speed)
+                    temp.text = "${roundedTemp} °C"
+                    feels_like_temp.text = "Feels like: ${roundedFeelsLikeTemp} °C"
+                    wind.text = "Wind: ${roundedWind} m/s"
                     humidity.text = "Humidity: ${result.main.humidity} %"
                     description.text = result.weather[0].description
                     locationText.text = result.name
