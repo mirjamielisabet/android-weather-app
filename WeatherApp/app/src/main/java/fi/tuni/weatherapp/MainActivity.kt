@@ -35,8 +35,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var fusedLocationClient: FusedLocationProviderClient
     lateinit var key : String
     lateinit var sharedPref : SharedPreferences
+    lateinit var searchedLocation : String
 
-    var errmsg = ""
+    private var errmsg = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,14 +58,14 @@ class MainActivity : AppCompatActivity() {
 
         heading.text = getString(R.string.currentWeather)
         heading2.text = getString(R.string.searchLocation)
-        locationText.text = getString(R.string.defaultCity)
+        searchedLocation = getString(R.string.defaultCity)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         sharedPref = getSharedPreferences("savedLocation", MODE_PRIVATE)
     }
 
     fun getWeatherData() {
-        val url = "https://api.openweathermap.org/data/2.5/weather?q=${locationText.text}&units=metric&appid=${key}"
+        val url = "https://api.openweathermap.org/data/2.5/weather?q=${searchedLocation}&units=metric&appid=${key}"
         UrlConnection().downloadUrlAsync(this, url) {
             if (it != null) {
                 val result = parseWeatherJSON(it)
@@ -98,8 +99,8 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val savedLocation = sharedPref.getString("location", "")
-        if (savedLocation != "") {
-            locationText.text = savedLocation
+        if (savedLocation != "" && savedLocation != null) {
+            searchedLocation = savedLocation
         }
         getWeatherData()
     }
@@ -111,7 +112,7 @@ class MainActivity : AppCompatActivity() {
         when (button.id) {
             R.id.submitButton -> {
                 val inputText = locationInput.text.toString()
-                locationText.text = inputText
+                searchedLocation = inputText
                 getWeatherData()
             }
             R.id.forecastButton -> startActivity(intent)
@@ -155,7 +156,7 @@ class MainActivity : AppCompatActivity() {
                 .addOnSuccessListener { currentLocation : Location? ->
                     if (currentLocation != null) {
                         val city = getCity(currentLocation.latitude, currentLocation.longitude)
-                        locationText.text = city
+                        searchedLocation = city
                         getWeatherData()
                     }
                 }
