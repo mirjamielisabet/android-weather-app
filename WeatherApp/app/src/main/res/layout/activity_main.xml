@@ -27,10 +27,9 @@
 
                 <TextView
                     android:id="@+id/heading"
-                    android:textAppearance="@id/heading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp"
+                    android:textSize="32sp"
                     android:fontFamily="@font/mulish_bold"
                     android:paddingHorizontal="15dp"
                     android:paddingVertical="5dp" />
@@ -58,8 +57,7 @@
                         android:id="@+id/temp"
                         android:paddingVertical="25dp"
                         android:paddingHorizontal="30dp"
-                        android:textSize="30sp"
-                        android:textAppearance="@id/heading2"
+                        android:textSize="31sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 

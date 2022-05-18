@@ -6,7 +6,6 @@
 
     <TextView
         android:id="@+id/forecastHeading"
-        android:textAppearance="@id/heading"
         android:textSize="27sp"
         android:padding="15dp"
         android:fontFamily="@font/mulish_bold"
