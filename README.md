@@ -15,7 +15,7 @@ Mirjami Laiho
 
 ## Screenshots
 
-...
+<img width="300" alt="screenshot-1" src="https://user-images.githubusercontent.com/77788900/169082019-a50627a8-64a7-49e9-94b4-e50742f3bed5.jpg"> &nbsp;&nbsp;&nbsp; <img width="300" alt="screenshot-2" src="https://user-images.githubusercontent.com/77788900/169082959-8c3e6449-345c-4555-88c2-ab8c9579c92d.jpg"> &nbsp;&nbsp;&nbsp; <img width="300" alt="screenshot-3" src="https://user-images.githubusercontent.com/77788900/169083029-835cff05-41da-4bef-b527-f1677e1654f8.jpg">
 
 ## Technologies / Built with
 
@@ -29,3 +29,4 @@ Mirjami Laiho
 ## Screencast
 
 ...
+
