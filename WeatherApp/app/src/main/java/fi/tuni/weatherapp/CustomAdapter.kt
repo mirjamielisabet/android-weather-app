@@ -17,8 +17,8 @@ import kotlin.collections.ArrayList
 /**
  * Adapter for the recycler view.
  *
- * @param context the activity context
- * @param data the list of the forecast data
+ * @property context the activity context
+ * @property data the list of the forecast data
  */
 class CustomAdapter(private var context: Context, private var data:  ArrayList<ForecastList>)
     : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
