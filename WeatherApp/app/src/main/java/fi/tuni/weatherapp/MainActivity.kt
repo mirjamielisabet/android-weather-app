@@ -20,6 +20,13 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import java.lang.Exception
 
+/**
+ * The Main Activity.
+ * Consists of elements that present the current weather to the user. The weather results are
+ * based on either the user's current location or the location user has inputted to the search field.
+ *
+ * @author Mirjami Laiho
+ */
 class MainActivity : AppCompatActivity() {
     lateinit var heading : TextView
     lateinit var heading2 : TextView
@@ -39,6 +46,10 @@ class MainActivity : AppCompatActivity() {
 
     private var errmsg = ""
 
+    /**
+     * When the activity is starting, initializes the variables and sets the
+     * texts for the headings.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -64,6 +75,12 @@ class MainActivity : AppCompatActivity() {
         sharedPref = getSharedPreferences("savedLocation", MODE_PRIVATE)
     }
 
+    /**
+     * Uses the downloadUrlAsync function from the UrlConnection class for fetching the weather
+     * results from the OpenWeather API. If the weather results are fetched successfully, the
+     * UI is updated according to the fetched data and the location is saved to the sharedPreferences.
+     * If the weather results are not fetched successfully, the error message is shown to the user.
+     */
     fun getWeatherData() {
         val url = "https://api.openweathermap.org/data/2.5/weather?q=${searchedLocation}&units=metric&appid=${key}"
         UrlConnection().downloadUrlAsync(this, url) {
@@ -96,6 +113,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * When the activity becomes active, the sharedPreferences is checked for a
+     * saved location name. If a location was retrieved, it will be saved to the savedLocation
+     * variable and the weather results are fetched based on it. Otherwise the default location
+     * will be used.
+     */
     override fun onResume() {
         super.onResume()
         val savedLocation = sharedPref.getString("location", "")
@@ -105,6 +128,18 @@ class MainActivity : AppCompatActivity() {
         getWeatherData()
     }
 
+    /**
+     * When a button is clicked, based on the buttons id:
+     *   submitButton: saves the user's input to the searchedLocation variable
+     *          and calls the getWeatherData function that finds the weather results for the
+     *          inputted location.
+     *   forecastButton: directs the user to the other activity that shows the forecast results.
+     *          The location is passed to the activity in the Intent.
+     *   currentLocationButton: calls the getCurrentLocation function that retrieves the user's
+     *          current location.
+     *
+     * @param button the button that was clicked.
+     */
     fun onClick(button: View) {
         val intent = Intent(this, ForecastActivity::class.java)
         intent.putExtra("location", locationText.text)
@@ -120,11 +155,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Asks the user for permission to access coarse location.
+     */
     fun askPermissions() {
         ActivityCompat.requestPermissions(this,
             arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 42)
     }
 
+    /**
+     * When the user has answered to the permission request, based on the answer:
+     * either calls the getCurrentLocation function for finding the user's current location
+     * or informs the user of the effects of the denied permission on the use of the application.
+     *
+     * @param requestCode the code of the request, passed in requestPermissions.
+     * @param permissions the array of the permissions requested.
+     * @param grantResults the array of the grant results, either PERMISSION_DENIED or PERMISSION_GRANTED.
+     */
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -142,6 +189,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Checks if the user has already given permission for accessing the coarse location.
+     *
+     * @return true or false, according to the result of the permission check.
+     */
     fun checkPermission() : Boolean {
         return ActivityCompat.checkSelfPermission(
             this,
@@ -149,6 +201,13 @@ class MainActivity : AppCompatActivity() {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
+    /**
+     * If the needed permissions are granted, finds the user's current location.
+     * By using the latitude and the longitude of the found location, gets the
+     * locality of the coordinates and saves it to the searchedLocation variable to be
+     * used for searching the weather results.
+     * If the needed permissions are not granted, calls the askPermissions function.
+     */
     @SuppressLint("MissingPermission")
     fun getCurrentLocation() {
         if (checkPermission()) {
@@ -165,12 +224,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * By using Geocoder, finds and returns the locality of the address based on the given
+     * latitude and longitude.
+     *
+     * @param lat the latitude of the searched location.
+     * @param lon the longitude of the searched location.
+     * @return the name of the city/locality.
+     */
     fun getCity(lat: Double, lon: Double) : String {
         val geocoder = Geocoder(this)
         val list = geocoder.getFromLocation(lat, lon, 1)
         return list[0].locality
     }
 
+    /**
+     * By using Jackson's ObjectMapper, parses the weather result json into the WeatherResult
+     * object. Returns the formed object or null if exception is caught.
+     *
+     * @param json the weather result json to be parsed.
+     * @return the WeatherResult object that contains the info about the current weather
+     * or null if error occurs.
+     */
     fun parseWeatherJSON(json: String): WeatherResult? {
         return try {
             val mapper = ObjectMapper().registerKotlinModule()
