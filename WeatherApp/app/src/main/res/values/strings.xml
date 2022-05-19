@@ -12,4 +12,5 @@
     <string name="wind">Wind: %1$.0f m/s</string>
     <string name="feels_like_temp">Feels like: %1$.0f °C</string>
     <string name="humidity">Humidity: %1$d %%</string>
+    <string name="forecastHeading">%1$s - 5 Day Forecast</string>
 </resources>
