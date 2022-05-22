@@ -28,7 +28,7 @@ Mirjami Laiho
 
 ## How to use
 
-1. Open [Android Studio](https://developer.android.com/studio?gclid=Cj0KCQjwvqeUBhCBARIsAOdt45Zoph2Yy7bwV5HxzKvAh4S5LtfxYiG_pmeAQz0PPKTJBw0AbJwFiogaAvKaEALw_wcB&gclsrc=aw.ds) and select <b>File</b> > <b>New</b> > <b>Project from Version Control</b>
+1. Open [Android Studio](https://developer.android.com/studio?gclid=Cj0KCQjwvqeUBhCBARIsAOdt45Zoph2Yy7bwV5HxzKvAh4S5LtfxYiG_pmeAQz0PPKTJBw0AbJwFiogaAvKaEALw_wcB&gclsrc=aw.ds) and select <b>File</b> > <b>New</b> > <b>Project from Version Control</b> (OR in <i>Welcome to Android Studio</i> view: <b>Get from VCS</b>)
 2. URL:  ```https://github.com/mirjamielisabet/android-weather-app```  and the Directory of your choise, then click Clone. Login to Github if needed.
 3. Create an account and get your own (free) API key from here:  [OpenWeather - Sign Up](https://home.openweathermap.org/users/sign_up)
 4. In the cloned project's res/values folder, there is a file <i>strings.xml</i>. Open it.
