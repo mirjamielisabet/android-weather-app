@@ -35,8 +35,3 @@ Mirjami Laiho
 5. Add line ```<string name="key">INSERT YOUR API KEY HERE</string>```  into that strings.xml file and replace the <i>INSERT YOUR API KEY HERE</i> text with your API key.
 6. Run the App using Android phone or emulator.
 
-
-## Screencast
-
-[Screencast - Youtube](https://youtu.be/pBPSh1c-XbI)
-
